@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io('http://localhost:9200')
+      socket.on('messageFromServer', (dataFromServer) => {
+        console.log(dataFromServer)
+        socket.emit('messageToServer', { data: 'This is from the client' })
+        socket.emit('messageFromAlexandra', { data: 'I love me viking' })
+      })
+    </script>
     <title>Chat App</title>
   </head>
   <body>
