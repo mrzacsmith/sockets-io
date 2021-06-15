@@ -10,7 +10,6 @@
       socket.on('messageFromServer', (dataFromServer) => {
         console.log(dataFromServer)
         socket.emit('messageToServer', { data: 'This is from the client' })
-        socket.emit('messageFromAlexandra', { data: 'I love me viking' })
       })
     </script>
     <title>Chat App</title>
