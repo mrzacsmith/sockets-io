@@ -4,7 +4,7 @@ const app = express()
 
 app.use(express.static(__dirname + '/public'))
 
-const PORT = 9200
+const PORT = 9400
 
 const expressServer = app.listen(PORT, () =>
   console.log(`chat server is running ${PORT}`)
