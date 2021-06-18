@@ -3,9 +3,7 @@ const socketio = require('socket.io')
 const app = express()
 
 app.use(express.static(__dirname + '/public'))
-
 const PORT = 9200
-
 const expressServer = app.listen(PORT, () =>
   console.log(`chat server is running ${PORT}`)
 )
@@ -16,8 +14,8 @@ io.on('connection', (socket) => {
   socket.on('messageToServer', (dataFromClient) => {
     console.log(dataFromClient)
   })
-  io.of('admin').on('connection', (socket) => {
-    console.log('someone connected to the adming namespage')
-    io.of('/admin'.emit('welcome', 'welcoome to the admin channel'))
+  socket.on('newMessageToServer', (msg) => {
+    console.log(msg)
+    io.emit('messageToClients', { text: msg.text })
   })
 })
