@@ -1,12 +1,13 @@
-const client = io('http://localhost:9200')
-const socket2 = io('http://localhost:9200/admin')
+const socket2 = io('http://localhost:9400/codeshock')
+const socket3 = io('http://localhost:9400/teamshock')
+const socket4 = io('http://localhost:9400/nodeshock')
 
-client.on('messageFromServer', (dataFromServer) => {
+socket.on('messageFromServer', (dataFromServer) => {
   console.log(dataFromServer)
-  client.emit('messageToServer', { data: 'This is from the client' })
+  socket.emit('messageToServer', { data: 'This is from the socket/client' })
 })
 
-client.on('joined', (msg) => {
+socket.on('joined', (msg) => {
   console.log(msg)
 })
 
@@ -17,5 +18,5 @@ socket2.on('welcome', (dataFromServer) => {
 document.querySelector('#message-form').addEventListener('submit', (e) => {
   e.preventDefault()
   const newMessage = document.querySelector('#user-message').value
-  client.emit('newMessageToServer', { text: newMessage })
+  socket.emit('newMessageToServer', { text: newMessage })
 })
