@@ -2,6 +2,10 @@ const express = require('express')
 const socketio = require('socket.io')
 const app = express()
 
+let namespaces = require('./data/namespaces')
+
+console.log(namespaces)
+
 app.use(express.static(__dirname + '/public'))
 
 const PORT = 9400
