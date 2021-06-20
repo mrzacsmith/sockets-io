@@ -1,22 +1,31 @@
-const socket2 = io('http://localhost:9400/codeshock')
-const socket3 = io('http://localhost:9400/teamshock')
-const socket4 = io('http://localhost:9400/nodeshock')
+const socket = io('http://localhost:9400')
 
 socket.on('messageFromServer', (dataFromServer) => {
   console.log(dataFromServer)
   socket.emit('messageToServer', { data: 'This is from the socket/client' })
 })
 
-socket.on('joined', (msg) => {
-  console.log(msg)
-})
+// socket.on('nslist', (nsData) => {
+//   console.log('the list of namespaces has arrived', nsData)
+// })
 
-socket2.on('welcome', (dataFromServer) => {
-  console.log(dataFromServer)
-})
+socket.on('new', (data) =>
+  console.log('new should only show for one', Date.now())
+)
 
-document.querySelector('#message-form').addEventListener('submit', (e) => {
-  e.preventDefault()
-  const newMessage = document.querySelector('#user-message').value
-  socket.emit('newMessageToServer', { text: newMessage })
+socket.on('welcome', (data) =>
+  console.log('new should only show for all', Date.now())
+)
+
+// document.querySelector('#message-form').addEventListener('submit', (e) => {
+//   e.preventDefault()
+//   const newMessage = document.querySelector('#user-message').value
+//   socket.emit('newMessageToServer', { text: newMessage })
+// })
+
+socket.on('messageFromClient', (messageFromClient) => {
+  console.log(messageFromClient)
+  document.querySelector(
+    '#message'
+  ).innerHTML += `<li>${messageFromClient.text}</li>`
 })
