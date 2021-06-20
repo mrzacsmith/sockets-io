@@ -38,9 +38,9 @@ namespaces.forEach((namespace) => {
       io.of('/codeshock')
         .in(roomToJoin)
         .clients((error, clients) => {
-          console.log(clients)
+          console.log(clients.length)
+          numberOfUsersCallback()
         })
-      numberOfUsersCallback()
     })
   })
 })
