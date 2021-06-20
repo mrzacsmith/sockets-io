@@ -24,7 +24,7 @@ let nodeShockNs = new Namespace(
 )
 
 // Make the main room and add it to rooms. it will ALWAYS be 0
-codeShockNs.addRoom(new Room(0, 'New Projects', 'CodeShock'))
+codeShockNs.addRoom(new Room(0, 'New Projects', 'CodeShock', true))
 codeShockNs.addRoom(new Room(1, 'General', 'CodeShock'))
 codeShockNs.addRoom(new Room(2, 'Other', 'CodeShock'))
 
