@@ -33,6 +33,15 @@ namespaces.forEach((namespace) => {
     console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
     // return namespace group info back
     nsSocket.emit('nsRoomload', namespaces[0].rooms)
+    nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
+      nsSocket.join(roomToJoin)
+      io.of('/codeshock')
+        .in(roomToJoin)
+        .clients((error, clients) => {
+          console.log(clients)
+        })
+      numberOfUsersCallback()
+    })
   })
 })
 

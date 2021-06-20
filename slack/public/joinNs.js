@@ -1,7 +1,7 @@
 const joinNs = (endpoint) => {
   console.log('JOINED', endpoint)
   // join namespace
-  const nsSocket = io(`http://localhost:9400${endpoint}`)
+  nsSocket = io(`http://localhost:9400${endpoint}`)
   nsSocket.on('nsRoomload', (nsRooms) => {
     let roomlist = document.querySelector('.room-list')
     roomlist.innerHTML = ''
@@ -19,6 +19,9 @@ const joinNs = (endpoint) => {
         console.log('clicked on', e.target.innerText)
       })
     })
+    const topRoom = document.querySelector('.room')
+    const topRoomName = topRoom.innerText
+    joinRoom(topRoomName)
   })
 
   nsSocket.on('messageFromClient', (messageFromClient) => {
