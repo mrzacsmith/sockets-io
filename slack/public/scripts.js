@@ -5,6 +5,7 @@ socket.on('messageFromServer', (dataFromServer) => {
   socket.emit('messageToServer', { data: 'This is from the socket/client' })
 })
 
+// receives the namespace array, and then dynamically updates the namespaces with img and endpoint
 socket.on('nslist', (nsData) => {
   console.log('the list of namespaces has arrived!!')
   let namespacesDiv = document.querySelector('.namespaces')
@@ -17,6 +18,16 @@ socket.on('nslist', (nsData) => {
     elem.addEventListener('click', (e) => {
       const nsEndpoint = elem.getAttribute('ns')
       console.log(nsEndpoint)
+    })
+  })
+
+  // join namespace
+  const nsSocket = io('http://localhost:9400/codeshock')
+  nsSocket.on('nsRoomload', (nsRooms) => {
+    let roomlist = document.querySelector('.room-list')
+    roomlist.innerHTML = ''
+    nsRooms.forEach((room) => {
+      roomlist.innerHTML += `<li>${room.roomTitle}</li>`
     })
   })
 })
