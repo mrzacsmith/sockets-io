@@ -25,23 +25,6 @@ io.on('connect', (socket) => {
     }
   })
   // console.log(nsData)
-
-  socket.emit('nslist', nsData)
-})
-
-io.on('connect', (socket) => {
-  socket.emit('new')
-  io.emit('welcome')
-})
-
-io.on('connection', (socket) => {
-  let nsData = namespaces.map((ns) => {
-    return {
-      img: ns.img,
-      endpoint: ns.endpoint,
-    }
-  })
-  // console.log(nsData)
   socket.emit('nslist', nsData)
 })
 

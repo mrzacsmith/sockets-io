@@ -5,17 +5,14 @@ socket.on('messageFromServer', (dataFromServer) => {
   socket.emit('messageToServer', { data: 'This is from the socket/client' })
 })
 
-// socket.on('nslist', (nsData) => {
-//   console.log('the list of namespaces has arrived', nsData)
-// })
-
-socket.on('new', (data) =>
-  console.log('new should only show for one', Date.now())
-)
-
-socket.on('welcome', (data) =>
-  console.log('new should only show for all', Date.now())
-)
+socket.on('nslist', (nsData) => {
+  console.log('the list of namespaces has arrived!!')
+  let namespacesDiv = document.querySelector('.namespaces')
+  namespacesDiv.innerHTML = ''
+  nsData.forEach((ns) => {
+    namespacesDiv.innerHTML += `<div class='namespace'><img src=${ns.img} /></div>`
+  })
+})
 
 // document.querySelector('#message-form').addEventListener('submit', (e) => {
 //   e.preventDefault()
