@@ -30,38 +30,28 @@ io.on('connect', (socket) => {
 
 namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
+    const username = nsSocket.handshake.query.username
     console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
     // return namespace group info back
     nsSocket.emit('nsRoomload', namespace.rooms)
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
-      const roomTitle2 = Object.keys(nsSocket.rooms)[1]
-      nsSocket.leave(roomTitle2)
-
+      const roomToLeave = Object.keys(nsSocket.rooms)[1]
+      nsSocket.leave(roomToLeave)
+      updateUsersInRoom(namespace, roomToLeave)
       nsSocket.join(roomToJoin)
-      // io.of('/codeshock')
-      //   .in(roomToJoin)
-      //   .clients((error, clients) => {
-      //     console.log(clients.length)
-      //     numberOfUsersCallback(clients.length)
-      //   })
+
       const nsRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomToJoin
       })
 
       nsSocket.emit('historyCatchUp', nsRoom.history)
-      io.of(namespace.endpoint)
-        .in(roomToJoin)
-        .clients((error, clients) => {
-          io.of(namespace.endpoint)
-            .in(roomToJoin)
-            .emit('updateMembers', clients.length)
-        })
+      updateUsersInRoom(namespace, roomToJoin)
     })
     nsSocket.on('newMessageToServer', (msg) => {
       const fullMsg = {
         text: msg.text,
         time: Date.now(),
-        username: 'Zac',
+        username,
         avatar: 'https://i.pravatar.cc/30',
       }
       // console.log('slack', fullMsg)
@@ -76,7 +66,12 @@ namespaces.forEach((namespace) => {
   })
 })
 
-// io.of('admin').on('connection', (client) => {
-//   console.log('someone connected to the adming namespage')
-//   io.of('/admin').emit('welcome', 'welcome to the admin channel')
-// })
+const updateUsersInRoom = (namespace, roomToJoin) => {
+  io.of(namespace.endpoint)
+    .in(roomToJoin)
+    .clients((error, clients) => {
+      io.of(namespace.endpoint)
+        .in(roomToJoin)
+        .emit('updateMembers', clients.length)
+    })
+}

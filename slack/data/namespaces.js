@@ -4,41 +4,29 @@ const Room = require('../classes/Room')
 
 // Set up the namespaces
 let namespaces = []
-let codeShockNs = new Namespace(
+let groupNs = new Namespace(
   0,
-  'CodeShock',
-  'https://res.cloudinary.com/codeshock/image/upload/v1616228921/ICON_PNG_bvxthw.png',
-  '/codeshock'
+  'Groups',
+  'https://picsum.photos/id/254/32',
+  '/groups'
 )
-let teamShockNs = new Namespace(
+let gameNs = new Namespace(
   1,
-  'TeamShock',
-  'https://res.cloudinary.com/codeshock/image/upload/v1617414274/flame-1235_mqplbp.png',
-  '/teamshock'
-)
-let nodeShockNs = new Namespace(
-  2,
-  'NodeShock',
-  'https://res.cloudinary.com/codeshock/image/upload/v1617682725/vector-creator_8_zcibrs.png',
-  '/nodeshock'
+  'Games',
+  'https://picsum.photos/id/112/32',
+  '/games'
 )
 
 // Make the main room and add it to rooms. it will ALWAYS be 0
-codeShockNs.addRoom(new Room(0, 'New Projects', 'CodeShock', true))
-codeShockNs.addRoom(new Room(1, 'General', 'CodeShock'))
-codeShockNs.addRoom(new Room(2, 'Other', 'CodeShock'))
+groupNs.addRoom(new Room(0, 'Free Fyling Fun', 'Groups', true))
+groupNs.addRoom(new Room(1, 'Flipping a Disk', 'Groups'))
+groupNs.addRoom(new Room(2, 'West Coast Fribee Golfers', 'Groups'))
 
-teamShockNs.addRoom(new Room(0, 'Development', 'TeamShock'))
-teamShockNs.addRoom(new Room(1, 'UI', 'TeamShock'))
-teamShockNs.addRoom(new Room(2, 'General', 'TeamShock'))
-teamShockNs.addRoom(new Room(3, 'Accounts', 'TeamShock'))
+gameNs.addRoom(new Room(0, 'Frishee after lunch', 'Games'))
+gameNs.addRoom(new Room(1, 'UI', 'Games'))
+gameNs.addRoom(new Room(2, 'General', 'Games'))
+gameNs.addRoom(new Room(3, 'Accounts', 'Games'))
 
-nodeShockNs.addRoom(new Room(0, 'Node', 'NodeShock'))
-nodeShockNs.addRoom(new Room(1, 'Express', 'NodeShock'))
-nodeShockNs.addRoom(new Room(2, 'Socket.io', 'NodeShock'))
-nodeShockNs.addRoom(new Room(3, 'Mongo', 'NodeShock'))
-nodeShockNs.addRoom(new Room(4, 'Redis', 'NodeShock'))
-
-namespaces.push(codeShockNs, teamShockNs, nodeShockNs)
+namespaces.push(groupNs, gameNs)
 
 module.exports = namespaces
