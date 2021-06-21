@@ -32,7 +32,7 @@ namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
     console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
     // return namespace group info back
-    nsSocket.emit('nsRoomload', namespaces[0].rooms)
+    nsSocket.emit('nsRoomload', namespace.rooms)
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
       nsSocket.join(roomToJoin)
       // io.of('/codeshock')
@@ -41,7 +41,7 @@ namespaces.forEach((namespace) => {
       //     console.log(clients.length)
       //     numberOfUsersCallback(clients.length)
       //   })
-      const nsRoom = namespaces[0].rooms.find((room) => {
+      const nsRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomToJoin
       })
 
@@ -63,7 +63,7 @@ namespaces.forEach((namespace) => {
       }
       // console.log('slack', fullMsg)
       const roomTitle = Object.keys(nsSocket.rooms)[1]
-      const nsRoom = namespaces[0].rooms.find((room) => {
+      const nsRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomTitle
       })
       // console.log(nsRoom)
