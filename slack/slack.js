@@ -34,6 +34,9 @@ namespaces.forEach((namespace) => {
     // return namespace group info back
     nsSocket.emit('nsRoomload', namespace.rooms)
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
+      const roomTitle2 = Object.keys(nsSocket.rooms)[1]
+      nsSocket.leave(roomTitle2)
+
       nsSocket.join(roomToJoin)
       // io.of('/codeshock')
       //   .in(roomToJoin)
