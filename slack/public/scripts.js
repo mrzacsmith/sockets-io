@@ -1,4 +1,10 @@
-const socket = io('http://localhost:9400')
+const username = prompt('What is your username?')
+// const socket = io('http://localhost:9400')
+const socket = io('http://localhost:9400', {
+  query: {
+    username,
+  },
+})
 let nsSocket = ''
 // receives the namespace array, and then dynamically updates the namespaces with img and endpoint
 socket.on('nslist', (nsData) => {
