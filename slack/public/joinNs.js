@@ -1,6 +1,12 @@
 const joinNs = (endpoint) => {
-  console.log('JOINED', endpoint)
+  // console.log('JOINED', endpoint)
   // join namespace
+  if (nsSocket) {
+    nsSocket.close()
+    document
+      .querySelector('#user-input')
+      .removeEventListener('submit', formSubmission)
+  }
   nsSocket = io(`http://localhost:9400${endpoint}`)
   nsSocket.on('nsRoomload', (nsRooms) => {
     let roomlist = document.querySelector('.room-list')
@@ -17,6 +23,7 @@ const joinNs = (endpoint) => {
     Array.from(roomNodes).forEach((elem) => {
       elem.addEventListener('click', (e) => {
         console.log('clicked on', e.target.innerText)
+        joinRoom(e.target.innerText)
       })
     })
     const topRoom = document.querySelector('.room')
@@ -30,11 +37,15 @@ const joinNs = (endpoint) => {
     document.querySelector('#messages').innerHTML += newMsg
   })
 
-  document.querySelector('.message-form').addEventListener('submit', (e) => {
-    e.preventDefault()
-    const newMessage = document.querySelector('#user-message').value
-    nsSocket.emit('newMessageToServer', { text: newMessage })
-  })
+  document
+    .querySelector('.message-form')
+    .addEventListener('submit', formSubmission)
+}
+
+const formSubmission = (e) => {
+  e.preventDefault()
+  const newMessage = document.querySelector('#user-message').value
+  nsSocket.emit('newMessageToServer', { text: newMessage })
 }
 
 const buildHTML = (msg) => {
