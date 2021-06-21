@@ -24,11 +24,11 @@ const joinNs = (endpoint) => {
     joinRoom(topRoomName)
   })
 
-  nsSocket.on('messageFromClient', (messageFromClient) => {
-    console.log(messageFromClient)
+  nsSocket.on('messageToClients', (msgToClients) => {
+    console.log(msgToClients)
     document.querySelector(
-      '#message'
-    ).innerHTML += `<li>${messageFromClient.text}</li>`
+      '#messages'
+    ).innerHTML += `<li>${msgToClients.text}</li>`
   })
 
   document.querySelector('.message-form').addEventListener('submit', (e) => {

@@ -39,8 +39,13 @@ namespaces.forEach((namespace) => {
         .in(roomToJoin)
         .clients((error, clients) => {
           console.log(clients.length)
-          numberOfUsersCallback()
+          numberOfUsersCallback(clients.length)
         })
+      nsSocket.on('newMessageToServer', (msg) => {
+        console.log('slack', msg)
+        const roomTitle = Object.keys(nsSocket.rooms)[1]
+        io.of('/codeshock').to(roomTitle).emit('messageToClients', msg)
+      })
     })
   })
 })
