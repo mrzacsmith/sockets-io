@@ -35,17 +35,40 @@ namespaces.forEach((namespace) => {
     nsSocket.emit('nsRoomload', namespaces[0].rooms)
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
       nsSocket.join(roomToJoin)
-      io.of('/codeshock')
+      // io.of('/codeshock')
+      //   .in(roomToJoin)
+      //   .clients((error, clients) => {
+      //     console.log(clients.length)
+      //     numberOfUsersCallback(clients.length)
+      //   })
+      const nsRoom = namespaces[0].rooms.find((room) => {
+        return room.roomTitle === roomToJoin
+      })
+
+      nsSocket.emit('historyCatchUp', nsRoom.history)
+      io.of(namespace.endpoint)
         .in(roomToJoin)
         .clients((error, clients) => {
-          console.log(clients.length)
-          numberOfUsersCallback(clients.length)
+          io.of(namespace.endpoint)
+            .in(roomToJoin)
+            .emit('updateMembers', clients.length)
         })
-      nsSocket.on('newMessageToServer', (msg) => {
-        console.log('slack', msg)
-        const roomTitle = Object.keys(nsSocket.rooms)[1]
-        io.of('/codeshock').to(roomTitle).emit('messageToClients', msg)
+    })
+    nsSocket.on('newMessageToServer', (msg) => {
+      const fullMsg = {
+        text: msg.text,
+        time: Date.now(),
+        username: 'Zac',
+        avatar: 'https://i.pravatar.cc/30',
+      }
+      // console.log('slack', fullMsg)
+      const roomTitle = Object.keys(nsSocket.rooms)[1]
+      const nsRoom = namespaces[0].rooms.find((room) => {
+        return room.roomTitle === roomTitle
       })
+      // console.log(nsRoom)
+      nsRoom.addMessage(fullMsg)
+      io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
     })
   })
 })

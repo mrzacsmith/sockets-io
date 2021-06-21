@@ -24,11 +24,10 @@ const joinNs = (endpoint) => {
     joinRoom(topRoomName)
   })
 
-  nsSocket.on('messageToClients', (msgToClients) => {
-    console.log(msgToClients)
-    document.querySelector(
-      '#messages'
-    ).innerHTML += `<li>${msgToClients.text}</li>`
+  nsSocket.on('messageToClients', (msg) => {
+    console.log(msg)
+    const newMsg = buildHTML(msg)
+    document.querySelector('#messages').innerHTML += newMsg
   })
 
   document.querySelector('.message-form').addEventListener('submit', (e) => {
@@ -36,4 +35,20 @@ const joinNs = (endpoint) => {
     const newMessage = document.querySelector('#user-message').value
     nsSocket.emit('newMessageToServer', { text: newMessage })
   })
+}
+
+const buildHTML = (msg) => {
+  const currentDate = new Date(msg.time).toLocaleString()
+  const newHTML = `
+      <li>
+        <div class="user-image">
+          <img src="${msg.avatar}" />
+        </div>
+        <div class="user-message">
+          <div class="user-name-time">${msg.username}<span>${currentDate}</span></div>
+          <div class="message-text">${msg.text}</div>
+        </div>
+      </li>
+  `
+  return newHTML
 }
